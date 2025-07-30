@@ -30,6 +30,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// 아래 링크부터 이어서
+// https://developer.android.com/codelabs/basic-android-kotlin-compose-classes-and-objects?hl=ko&continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fandroid-basics-compose-unit-2-pathway-1%3Fhl%3Dko%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fbasic-android-kotlin-compose-classes-and-objects#7
+// 공개 상태 수정자부터 이어서 하면 됨.
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
