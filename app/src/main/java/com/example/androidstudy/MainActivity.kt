@@ -1,7 +1,7 @@
-// 학습 리소스 둘러보기 -> 입문자 대상 -> 단원 2: 앱 UI 빌드 -> 연습: 클릭 동작
+// 학습 리소스 둘러보기 -> 입문자 대상 -> 단원 2: 앱 UI 빌드 -> UI 및 상태와 상호작용 -> Compose의 상태 소개
 // 아래 링크부터 이어서
 // https://developer.android.com/codelabs/basic-android-kotlin-compose-button-click-practice-problem?hl=ko&continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fandroid-basics-compose-unit-2-pathway-2%3Fhl%3Dko%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fbasic-android-kotlin-compose-button-click-practice-problem#2
-// "시작하기"부터 이어서 하면 됨.
+// "시작하기 전에"부터 이어서 하면 됨.
 
 package com.example.androidstudy
 
@@ -9,39 +9,26 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.androidstudy.ui.theme.AndroidStudyTheme
+import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,84 +36,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AndroidStudyTheme {
-                LemonadeApp()
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LemonadeApp() {
-    var currentStep by remember { mutableIntStateOf(1) }
-    var squeezeCount by remember { mutableIntStateOf(0) }
-
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Lemonade", fontWeight = FontWeight.Bold
-                    )
-                }, colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
-            )
-        }) { innerPadding ->
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.tertiaryContainer),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            when (currentStep) {
-                1 -> {
-                    LemonTextAndImage(
-                        textLabelResourceId = R.string.string01,
-                        drawableResourceId = R.drawable.lemon_tree,
-                        contentDescriptionResourceId = R.string.string05,
-                        onImageClick = {
-                            currentStep = 2
-                            squeezeCount = (2..4).random()
-                        }
-                    )
-                }
-
-                2 -> {
-                    LemonTextAndImage(
-                        textLabelResourceId = R.string.string02,
-                        drawableResourceId = R.drawable.lemon_squeeze,
-                        contentDescriptionResourceId = R.string.string06,
-                        onImageClick = {
-                            squeezeCount--
-                            if (squeezeCount <= 0) {
-                                currentStep = 3
-                            }
-                        }
-                    )
-                }
-
-                3 -> {
-                    LemonTextAndImage(
-                        textLabelResourceId = R.string.string03,
-                        drawableResourceId = R.drawable.lemon_drink,
-                        contentDescriptionResourceId = R.string.string07,
-                        onImageClick = {
-                            currentStep = 4
-                        }
-                    )
-                }
-
-                4 -> {
-                    LemonTextAndImage(
-                        textLabelResourceId = R.string.string04,
-                        drawableResourceId = R.drawable.lemon_restart,
-                        contentDescriptionResourceId = R.string.string08,
-                        onImageClick = {
-                            currentStep = 1
-                        }
-                    )
+                Surface {
+                    TipTimeLayout()
                 }
             }
         }
@@ -134,48 +45,39 @@ fun LemonadeApp() {
 }
 
 @Composable
-fun LemonTextAndImage(
-    textLabelResourceId: Int,
-    drawableResourceId: Int,
-    contentDescriptionResourceId: Int,
-    onImageClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
+fun TipTimeLayout() {
+    Column(
+        modifier = Modifier
+            .statusBarsPadding()
+            .padding(horizontal = 40.dp)
+            .verticalScroll(rememberScrollState())
+            .safeDrawingPadding(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Button(
-                onClick = onImageClick,
-                shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner_radius)),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
-            ) {
-                Image(
-                    painter = painterResource(drawableResourceId),
-                    contentDescription = stringResource(contentDescriptionResourceId),
-                    modifier = Modifier
-                        .width(dimensionResource(R.dimen.button_image_width))
-                        .height(dimensionResource(R.dimen.button_image_height))
-                        .padding(dimensionResource(R.dimen.button_interior_padding))
-                )
-            }
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_vertical)))
-            Text(
-                text = stringResource(textLabelResourceId),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
+        Text(
+            text = stringResource(R.string.calculate_tip),
+            modifier = Modifier
+                .padding(bottom = 16.dp, top = 40.dp)
+                .align(alignment = Alignment.Start)
+        )
+        Text(
+            text = stringResource(R.string.tip_amount, "$0.00"),
+            style = MaterialTheme.typography.displaySmall
+        )
+        Spacer(modifier = Modifier.height(150.dp))
     }
 }
 
-@Preview
+private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
+    val tip = tipPercent / 100 * amount
+    return NumberFormat.getCurrencyInstance().format(tip)
+}
+
+@Preview(showBackground = true)
 @Composable
-fun LemonadePreview() {
+fun TipTimeLayoutPreview() {
     AndroidStudyTheme {
-        LemonadeApp()
+        TipTimeLayout()
     }
 }
