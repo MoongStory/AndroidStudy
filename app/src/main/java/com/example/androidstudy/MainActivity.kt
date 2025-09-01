@@ -3,9 +3,10 @@
 // -> 단원 2: 앱 UI 빌드
 // -> UI 및 상태와 상호작용
 // -> Compose의 상태 소개
+// -> 컴포지션
+
 // 아래 링크부터 이어서
 // https://developer.android.com/codelabs/basic-android-kotlin-compose-using-state?hl=ko&continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fandroid-basics-compose-unit-2-pathway-3%3Fhl%3Dko%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fbasic-android-kotlin-compose-using-state#3
-// "4. Compose에서 상태 사용"부터 이어서 하면 됨.
 
 package com.example.androidstudy
 
